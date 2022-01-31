@@ -1,41 +1,43 @@
 import smtplib
-import email
+import email.mime.text
 
 class MailAccountInfo:
-    def __init__(smtpserver, smtpport, account, password):
+    def __init__(self, smtpserver, smtpport, account, password):
         self.smtpserver = smtpserver
         self.smtpport = smtpport
         self.account = account
         self.password = password
 
 class MailParts:
-    def __init__(self, mail_from, mail_to, contents):
+    def __init__(self, mail_from, mail_to, subject='', contents=''):
         self.mail_from = mail_from
         self.mail_to = mail_to
+        self.subject = subject
         self.contents = contents
 
     def load_csv_lines(csv_lines):
         address_contents_dict = {}
         for csv_line in csv_lines:
-            mail_from, mail_to, contents = csv_line.split(',')
-            if (mail_from, mail_to) in address_contents_dict:
-                address_contents_dict[(mail_from, mail_to)] += contents
+            mail_from, mail_to, subject, contents = csv_line.split(',')
+            if (mail_from, mail_to, subject) in address_contents_dict:
+                address_contents_dict[(mail_from, mail_to, subject)] += contents
             else:
-                address_contents_dict[(mail_from,mail_to)] = contents
-        return list(map(lambda key: MailParts(key[0], key[1], address_contents_dict[key]), address_contents_dict))
+                address_contents_dict[(mail_from,mail_to, subject)] = contents
+        return list(map(lambda key: MailParts(mail_from=key[0], mail_to=key[1], subject=key[2], contents=address_contents_dict[key]), address_contents_dict))
 
 class MailServer:
     def __init__(self, mail_account_info):
-        self.smtpobj = smtplib.SMTP_SSL(mail_account_info.smtpserver, mail_account_info.smtpport)
-        self.account = mail_account.info.account
-        self.password = mail_account.info.password
+        self.mail_account_info = mail_account_info
 
-
-    def send(mailparts):
+    def send(self, mailparts):
         msg = email.mime.text.MIMEText(mailparts.contents)
+        msg['Subject'] = mailparts.subject
         msg['From'] = mailparts.mail_from
         msg['To'] = mailparts.mail_to
-        smtpobj.send_message()
+        smtpobj = smtplib.SMTP_SSL(self.mail_account_info.smtpserver, self.mail_account_info.smtpport)
+        smtpobj.login(self.mail_account_info.account, self.mail_account_info.password)
+        smtpobj.send_message(msg)
+        smtpobj.quit()
 
 
 
