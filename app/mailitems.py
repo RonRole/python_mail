@@ -1,5 +1,6 @@
 import smtplib
 import email.mime.text
+import functools 
 
 class MailAccountInfo:
     def __init__(self, smtpserver, smtpport, account, password):
@@ -11,19 +12,17 @@ class MailAccountInfo:
 class MailParts:
     def __init__(self, mail_from, mail_to, subject='', contents=''):
         self.mail_from = mail_from
-        self.mail_to = mail_to
-        self.subject = subject
-        self.contents = contents
+        self.mail_to   = mail_to
+        self.subject   = subject
+        self.contents  = contents
 
     def load_csv_lines(csv_lines):
         address_contents_dict = {}
         for csv_line in csv_lines:
             mail_from, mail_to, subject, contents = csv_line.split(',')
-            if (mail_from, mail_to, subject) in address_contents_dict:
-                address_contents_dict[(mail_from, mail_to, subject)] += contents
-            else:
-                address_contents_dict[(mail_from,mail_to, subject)] = contents
-        return list(map(lambda key: MailParts(mail_from=key[0], mail_to=key[1], subject=key[2], contents=address_contents_dict[key]), address_contents_dict))
+            address_keys = (mail_from, mail_to, subject)
+            address_contents_dict[address_keys] = address_contents_dict.get(address_keys, '') + contents
+        return list(map(lambda keys: MailParts(mail_from = keys[0], mail_to = keys[1], subject = keys[2], contents = address_contents_dict[keys]), address_contents_dict))
 
 class MailServer:
     def __init__(self, mail_account_info):
@@ -38,28 +37,3 @@ class MailServer:
         smtpobj.login(self.mail_account_info.account, self.mail_account_info.password)
         smtpobj.send_message(msg)
         smtpobj.quit()
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
