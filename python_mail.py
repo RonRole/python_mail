@@ -28,7 +28,7 @@ mailpartsloader = app.mailpartsloader.MailPartsLoaderFactory.create(app.mailpart
 args = sys.argv
 CSV_FILE_NAME = args[1]
 
-mailpartslist = mailpartsloader.load(CSV_FILE_NAME)
+mailpartslist = mailpartsloader.load(CSV_FILE_NAME).group_by_address_and_subject()
 for mailparts in mailpartslist:
     mailserver.send(mailparts)
 

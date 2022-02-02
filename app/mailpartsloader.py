@@ -1,6 +1,6 @@
 import sys
 import enum
-from .mailparts import MailParts
+from .mailparts import MailParts, MailPartsList
 
 class LoadType(enum.Enum):
     CSV = enum.auto()        
@@ -21,15 +21,16 @@ class MailPartsCsvLoader:
     def load(self, csv_file_name):
         with open(csv_file_name, encoding=self.encoding) as f:
             csv_lines = f.readlines()
-
-            address_contents_dict = {}
-            for csv_line in csv_lines:
-                csv_items = csv_line.split(',')
-                address_keys = (
-                    csv_items[self.mailfrom_idx], 
-                    csv_items[self.mailto_idx], 
-                    csv_items[self.subject_idx]
+            csv_items_list = list(map(lambda csv_line: csv_line.split(','), csv_lines))
+            mailpartslist = list(
+                map(
+                    lambda items: MailParts(
+                        mail_from = items[self.mailfrom_idx], 
+                        mail_to   = items[self.mailto_idx],
+                        subject   = items[self.subject_idx],
+                        contents  = items[self.contents_idx]
+                    ),
+                    csv_items_list
                 )
-                contents = csv_items[self.contents_idx]
-                address_contents_dict[address_keys] = address_contents_dict.get(address_keys, '') + contents
-            return list(map(lambda keys: MailParts(mail_from = keys[0], mail_to = keys[1], subject = keys[2], contents = address_contents_dict[keys]), address_contents_dict))
+            )
+            return MailPartsList(*mailpartslist)
