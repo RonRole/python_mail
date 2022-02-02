@@ -15,7 +15,7 @@ class MailPartsCsvLoader:
         self.mailfrom_idx = settings.get('mailfrom_idx', 0)
         self.mailto_idx = settings.get('mailto_idx', 1)
         self.subject_idx = settings.get('subject_idx', 2)
-        self.contents_idx = settings.get('contents', 3)
+        self.contents_idx = settings.get('contents_idx', 3)
         self.encoding = settings.get('encoding', 'utf-8')
 
     def load(self, csv_file_name):

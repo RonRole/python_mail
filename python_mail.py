@@ -22,6 +22,7 @@ mailpartsloader = app.mailpartsloader.MailPartsLoaderFactory.create(app.mailpart
     mailfrom_idx = 0,
     mailto_idx = 1,
     subject_idx = 2,
+    contents_idx = 3,
     encoding = 'utf-8'
 ))
 
