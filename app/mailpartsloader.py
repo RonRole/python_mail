@@ -15,7 +15,7 @@ class CsvIndexes:
         self.idx_name_dict = idx_names
     
     def max_value(self):
-        return max(idx_name_dict.values())
+        return max(self.idx_name_dict.values())
 
     def value_of(self, idx_name, default=-1):
         return self.idx_name_dict.get(idx_name, default)
@@ -24,10 +24,10 @@ class CsvIndexes:
 class MailPartsCsvLoader:
     def __init__(self, settings):
         self.indexes = CsvIndexes(
-            mailfrom_idx = self.mailfrom_idx = settings.get('mailfrom_idx', 0)
-            mailto_idx = self.mailto_idx = settings.get('mailto_idx', 1)
-            subject_idx = self.subject_idx = settings.get('subject_idx', 2)
-            contents_idx = self.contents_idx = settings.get('contents_idx', 3)
+            mailfrom_idx = settings.get('mailfrom_idx', 0),
+            mailto_idx   = settings.get('mailto_idx', 1),
+            subject_idx  = settings.get('subject_idx', 2),
+            contents_idx = settings.get('contents_idx', 3)
         )
         self.encoding = settings.get('encoding', 'utf-8')
 
@@ -35,7 +35,7 @@ class MailPartsCsvLoader:
         with open(csv_file_name, encoding=self.encoding) as f:
             csv_lines = f.readlines()            
             csv_items_list = list(map(lambda csv_line: csv_line.split(','), csv_lines))
-            filtered_items_list = list(filter(lambda items: len(items) < max(self.indexes.max_value()), csv_items_list))
+            filtered_items_list = list(filter(lambda items: len(items) > self.indexes.max_value(), csv_items_list))
             mailpartslist = list(
                 map(
                     lambda items: MailParts(
@@ -44,7 +44,7 @@ class MailPartsCsvLoader:
                         subject   = items[self.indexes.value_of('subject_idx')],
                         contents  = items[self.indexes.value_of('contents_idx')]
                     ),
-                    csv_items_list
+                    filtered_items_list
                 )
             )
             return MailPartsList(*mailpartslist)
