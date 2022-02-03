@@ -7,14 +7,14 @@ class MailParts:
 
 class MailPartsList:
     def __init__(self, *mailparts):
-        self.mailpartslist = list(mailparts)
+        self.__mailpartslist = list(mailparts)
 
     def all(self):
-        return self.mailpartslist
+        return self.__mailpartslist
 
     def group_by_address_and_subject(self):
         address_contents_dict = {}
-        for mailparts in self.mailpartslist:
+        for mailparts in self.__mailpartslist:
             unique_keys = (
                 mailparts.mail_from,
                 mailparts.mail_to,
