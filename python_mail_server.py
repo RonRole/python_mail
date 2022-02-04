@@ -24,7 +24,7 @@ class CsvLoadHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         content_len  = int(self.headers.get("content-length"))
         req_body = self.rfile.read(content_len).decode("utf-8")
-        mailpartsloader = app.mailpartsloader.MailPartsLoaderFactory.create(app.mailpartsloader.LoadType.CSV_LINE, **dict(
+        mailpartsloader = app.MailPartsLoaderFactory.create(app.LoadType.CSV_LINE, **dict(
             mailfrom_idx = 0,
             mailto_idx = 1,
             subject_idx = 2,

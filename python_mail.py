@@ -1,9 +1,10 @@
 import sys
 import json
 import mailsettings
+import app
 
 mailserver = mailsettings.get_mailserver()
-mailpartsloader = app.mailpartsloader.MailPartsLoaderFactory.create(app.mailpartsloader.LoadType.CSV_FILE, **dict(
+mailpartsloader = app.MailPartsLoaderFactory.create(app.LoadType.CSV_FILE, **dict(
     mailfrom_idx = 0,
     mailto_idx = 1,
     subject_idx = 2,
