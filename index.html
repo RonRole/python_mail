@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<title>
+    Sawai Page
+</title>
+<header>
+    <h1>Hello Sawai!</h1>
+</header>
+<body>
+    <p>Here is body of Sawai</p>
+    <p>
+        <input type="file" id="csv" accept=".csv">
+    </p>
+</body>
+<footer>
+    Sawai Footer!
+</footer>
+<script>
+    const csvInput = document.getElementById("csv")
+    csvInput.addEventListener("change", event => {
+        const file = event.srcElement.files[0]
+        const formData = new FormData()
+        formData.append('file', file)
+        const request = new XMLHttpRequest()
+        request.open('POST', 'http://localhost:8000')
+        request.send(formData)
+    })
+</script>
