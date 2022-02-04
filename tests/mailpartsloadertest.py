@@ -3,7 +3,7 @@ sys.path.append('../')
 sys.path.append('../app')
 from app.mailpartsloader import LoadType, MailPartsLoaderFactory
 
-csv_loader = MailPartsLoaderFactory.create(LoadType.CSV, **dict(
+csv_loader = MailPartsLoaderFactory.create(LoadType.CSV_FILE, **dict(
     mailfrom_idx = 0,
     mailto_idx = 1,
     subject_idx = 2,
