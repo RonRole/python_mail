@@ -1,20 +1,20 @@
 {
     "test_item1" : {
         "mailto"   : "example1@example1.com",
-        "mailfrom" : "example2@example2.com",
-        "subject"  : "test_subject",
-        "contents" : "test_contents"
+        "mailfrom" : "example1@example1.com",
+        "subject"  : "test_subject1",
+        "contents" : "test_contents1"
     },
     "test_item2" : {
-        "mailto"   : "example1@example1.com",
+        "mailto"   : "example2@example2.com",
         "mailfrom" : "example2@example2.com",
-        "subject"  : "test_subject",
-        "contents" : "test_contents"
+        "subject"  : "test_subject2",
+        "contents" : "test_contents2"
     },
     "test_item3" : {
-        "mailto"   : "example1@example1.com",
-        "mailfrom" : "example2@example2.com",
-        "subject"  : "test_subject",
-        "contents" : "test_contents"
+        "mailto"   : "example3@example3.com",
+        "mailfrom" : "example3@example3.com",
+        "subject"  : "test_subject3",
+        "contents" : "test_contents3"
     }
 }

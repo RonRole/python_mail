@@ -84,4 +84,20 @@ class TestMailPartsJsonFileLoader(unittest.TestCase):
         ))
         test_file_path = f'{os.path.dirname(__file__)}/test_json.json'
         mailpartslist = loader.load(test_file_path)
-        self.assertEqual(len(mailpartslist.all()), 3)
+        all_mailpartslist = mailpartslist.all()
+        self.assertEqual(len(all_mailpartslist), 3)
+        self.assertEqual(all_mailpartslist[0].mail_from, 'example1@example1.com')
+        self.assertEqual(all_mailpartslist[0].mail_to  , 'example1@example1.com')
+        self.assertEqual(all_mailpartslist[0].subject  , 'test_subject1')
+        self.assertEqual(all_mailpartslist[0].contents , 'test_contents1')
+
+        self.assertEqual(all_mailpartslist[1].mail_from, 'example2@example2.com')
+        self.assertEqual(all_mailpartslist[1].mail_to  , 'example2@example2.com')
+        self.assertEqual(all_mailpartslist[1].subject  , 'test_subject2')
+        self.assertEqual(all_mailpartslist[1].contents , 'test_contents2')
+
+        self.assertEqual(all_mailpartslist[2].mail_from, 'example3@example3.com')
+        self.assertEqual(all_mailpartslist[2].mail_to  , 'example3@example3.com')
+        self.assertEqual(all_mailpartslist[2].subject  , 'test_subject3')
+        self.assertEqual(all_mailpartslist[2].contents , 'test_contents3')
+
