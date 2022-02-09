@@ -1,0 +1,20 @@
+{
+    "test_item1" : {
+        "mailto"   : "example1@example1.com",
+        "mailfrom" : "example2@example2.com",
+        "subject"  : "test_subject",
+        "contents" : "test_contents"
+    },
+    "test_item2" : {
+        "mailto"   : "example1@example1.com",
+        "mailfrom" : "example2@example2.com",
+        "subject"  : "test_subject",
+        "contents" : "test_contents"
+    },
+    "test_item3" : {
+        "mailto"   : "example1@example1.com",
+        "mailfrom" : "example2@example2.com",
+        "subject"  : "test_subject",
+        "contents" : "test_contents"
+    }
+}
