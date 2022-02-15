@@ -3,18 +3,21 @@ import enum
 from .mailparts import MailParts, MailPartsList
 
 class LoadType(enum.Enum):
-    CSV_LINE = enum.auto()
-    CSV_FILE = enum.auto()
+    CSV_LINE  = enum.auto()
+    CSV_FILE  = enum.auto()
+    JSON_FILE = enum.auto()
 
 class MailPartsLoaderFactory:
     def create(loadtype, **settings):
         if loadtype == LoadType.CSV_LINE:
-            return MailPartsCsvLineLoader(settings)
+            return MailPartsCsvLineLoader(**settings)
         if loadtype == LoadType.CSV_FILE:
             return FileLineReadLoaderDecorator(
-                decorated_loader = MailPartsCsvLineLoader(settings),
+                decorated_loader = MailPartsCsvLineLoader(**settings),
                 encoding = settings['encoding']    
             )
+        if loadtype == LoadType.JSON_FILE:
+            return MailPartsJsonFileLoader(**settings)
 class CsvIndexes:
     def __init__(self, **idx_names):
         self.__idx_name_dict = idx_names
@@ -26,7 +29,7 @@ class CsvIndexes:
         return self.__idx_name_dict.get(idx_name, default)
 
 class MailPartsCsvLineLoader:
-    def __init__(self, settings):
+    def __init__(self, **settings):
         self.__indexes = CsvIndexes(
             mailfrom_idx = settings.get('mailfrom_idx', 0),
             mailto_idx   = settings.get('mailto_idx', 1),
