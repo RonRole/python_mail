@@ -1,6 +1,15 @@
 {
-    "smtpserver":"",
-    "smtpport":"",
-    "mail_account":"",
-    "mail_password":"" 
+    "mail" : {
+        "smtpserver":"",
+        "smtpport":"",
+        "mail_account":"",
+        "mail_password":"" 
+    },
+    "csv" : {
+        "mailfrom_idx" : 0,
+        "mailto_idx"   : 1,
+        "subject_idx"  : 2,
+        "contents_idx" : 3,
+        "encoding"     : "utf-8"
+    }
 }
