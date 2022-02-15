@@ -1,3 +1,4 @@
+import json
 import enum
 from .mailparts import MailParts, MailPartsList
 
@@ -10,7 +11,7 @@ class MailPartsLoaderFactory:
         if loadtype == LoadType.CSV_LINE:
             return MailPartsCsvLineLoader(settings)
         if loadtype == LoadType.CSV_FILE:
-            return FileReadLoaderDecorator(
+            return FileLineReadLoaderDecorator(
                 decorated_loader = MailPartsCsvLineLoader(settings),
                 encoding = settings['encoding']    
             )
@@ -49,8 +50,7 @@ class MailPartsCsvLineLoader:
         )
         return MailPartsList(*mailpartslist)
 
-class FileReadLoaderDecorator:
-    import sys
+class FileLineReadLoaderDecorator:
     def __init__(self, decorated_loader, encoding):
         self.__decorated_loader = decorated_loader
         self.__encoding = encoding
@@ -60,4 +60,25 @@ class FileReadLoaderDecorator:
             lines = f.readlines()
             return self.__decorated_loader.load(lines)
 
+class MailPartsJsonFileLoader:
+    def __init__(self, **settings):
+        self.__mailto_prop_name   = settings.get('mailto_prop_name'  , '')
+        self.__mailfrom_prop_name = settings.get('mailfrom_prop_name', '')
+        self.__subject_prop_name  = settings.get('subject_prop_name' , '')
+        self.__contents_prop_name = settings.get('contents_prop_name', '')
 
+    def load(self, json_file_name):
+        with open(json_file_name, 'r') as f:
+            json_items = json.load(f)
+            mailpartslist = list(
+                map(
+                    lambda key : MailParts(
+                        mail_from = json_items[key][self.__mailfrom_prop_name],
+                        mail_to   = json_items[key][self.__mailto_prop_name]  ,
+                        subject   = json_items[key][self.__subject_prop_name] ,
+                        contents  = json_items[key][self.__contents_prop_name],
+                    ),
+                    json_items
+                )
+            )
+            return MailPartsList(*mailpartslist)

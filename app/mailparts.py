@@ -1,3 +1,5 @@
+import copy
+
 class MailParts:
     def __init__(self, mail_from, mail_to, subject='', contents=''):
         self.mail_from = mail_from
@@ -10,7 +12,7 @@ class MailPartsList:
         self.__mailpartslist = list(mailparts)
 
     def all(self):
-        return self.__mailpartslist
+        return copy.deepcopy(self.__mailpartslist)
 
     def group_by_address_and_subject(self):
         address_contents_dict = {}
