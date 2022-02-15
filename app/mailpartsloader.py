@@ -18,6 +18,7 @@ class MailPartsLoaderFactory:
             )
         if loadtype == LoadType.JSON_FILE:
             return MailPartsJsonFileLoader(**settings)
+            
 class CsvIndexes:
     def __init__(self, **idx_names):
         self.__idx_name_dict = idx_names
